@@ -12,9 +12,9 @@ import (
 )
 
 type DouyinPublishActionRequest struct {
-	Token string `thrift:"token,1" frugal:"1,default,string" json:"token"`
-	Data  []byte `thrift:"data,2" frugal:"2,default,binary" json:"data"`
-	Title string `thrift:"title,3" frugal:"3,default,string" json:"title"`
+	Token string `thrift:"token,1,required" frugal:"1,required,string" json:"token"`
+	Data  []byte `thrift:"data,2,required" frugal:"2,required,binary" json:"data"`
+	Title string `thrift:"title,3,required" frugal:"3,required,string" json:"title"`
 }
 
 func NewDouyinPublishActionRequest() *DouyinPublishActionRequest {
@@ -56,6 +56,9 @@ func (p *DouyinPublishActionRequest) Read(iprot thrift.TProtocol) (err error) {
 
 	var fieldTypeId thrift.TType
 	var fieldId int16
+	var issetToken bool = false
+	var issetData bool = false
+	var issetTitle bool = false
 
 	if _, err = iprot.ReadStructBegin(); err != nil {
 		goto ReadStructBeginError
@@ -76,6 +79,7 @@ func (p *DouyinPublishActionRequest) Read(iprot thrift.TProtocol) (err error) {
 				if err = p.ReadField1(iprot); err != nil {
 					goto ReadFieldError
 				}
+				issetToken = true
 			} else {
 				if err = iprot.Skip(fieldTypeId); err != nil {
 					goto SkipFieldError
@@ -86,6 +90,7 @@ func (p *DouyinPublishActionRequest) Read(iprot thrift.TProtocol) (err error) {
 				if err = p.ReadField2(iprot); err != nil {
 					goto ReadFieldError
 				}
+				issetData = true
 			} else {
 				if err = iprot.Skip(fieldTypeId); err != nil {
 					goto SkipFieldError
@@ -96,6 +101,7 @@ func (p *DouyinPublishActionRequest) Read(iprot thrift.TProtocol) (err error) {
 				if err = p.ReadField3(iprot); err != nil {
 					goto ReadFieldError
 				}
+				issetTitle = true
 			} else {
 				if err = iprot.Skip(fieldTypeId); err != nil {
 					goto SkipFieldError
@@ -115,6 +121,20 @@ func (p *DouyinPublishActionRequest) Read(iprot thrift.TProtocol) (err error) {
 		goto ReadStructEndError
 	}
 
+	if !issetToken {
+		fieldId = 1
+		goto RequiredFieldNotSetError
+	}
+
+	if !issetData {
+		fieldId = 2
+		goto RequiredFieldNotSetError
+	}
+
+	if !issetTitle {
+		fieldId = 3
+		goto RequiredFieldNotSetError
+	}
 	return nil
 ReadStructBeginError:
 	return thrift.PrependError(fmt.Sprintf("%T read struct begin error: ", p), err)
@@ -129,6 +149,8 @@ ReadFieldEndError:
 	return thrift.PrependError(fmt.Sprintf("%T read field end error", p), err)
 ReadStructEndError:
 	return thrift.PrependError(fmt.Sprintf("%T read struct end error: ", p), err)
+RequiredFieldNotSetError:
+	return thrift.NewTProtocolExceptionWithType(thrift.INVALID_DATA, fmt.Errorf("required field %s is not set", fieldIDToName_DouyinPublishActionRequest[fieldId]))
 }
 
 func (p *DouyinPublishActionRequest) ReadField1(iprot thrift.TProtocol) error {
@@ -294,8 +316,8 @@ func (p *DouyinPublishActionRequest) Field3DeepEqual(src string) bool {
 }
 
 type DouyinPublishActionResponse struct {
-	StatusCode int32  `thrift:"status_code,1" frugal:"1,default,i32" json:"status_code"`
-	StatusMsg  string `thrift:"status_msg,2" frugal:"2,default,string" json:"status_msg"`
+	StatusCode int32   `thrift:"status_code,1,required" frugal:"1,required,i32" json:"status_code"`
+	StatusMsg  *string `thrift:"status_msg,2,optional" frugal:"2,optional,string" json:"status_msg,omitempty"`
 }
 
 func NewDouyinPublishActionResponse() *DouyinPublishActionResponse {
@@ -310,13 +332,18 @@ func (p *DouyinPublishActionResponse) GetStatusCode() (v int32) {
 	return p.StatusCode
 }
 
+var DouyinPublishActionResponse_StatusMsg_DEFAULT string
+
 func (p *DouyinPublishActionResponse) GetStatusMsg() (v string) {
-	return p.StatusMsg
+	if !p.IsSetStatusMsg() {
+		return DouyinPublishActionResponse_StatusMsg_DEFAULT
+	}
+	return *p.StatusMsg
 }
 func (p *DouyinPublishActionResponse) SetStatusCode(val int32) {
 	p.StatusCode = val
 }
-func (p *DouyinPublishActionResponse) SetStatusMsg(val string) {
+func (p *DouyinPublishActionResponse) SetStatusMsg(val *string) {
 	p.StatusMsg = val
 }
 
@@ -325,10 +352,15 @@ var fieldIDToName_DouyinPublishActionResponse = map[int16]string{
 	2: "status_msg",
 }
 
+func (p *DouyinPublishActionResponse) IsSetStatusMsg() bool {
+	return p.StatusMsg != nil
+}
+
 func (p *DouyinPublishActionResponse) Read(iprot thrift.TProtocol) (err error) {
 
 	var fieldTypeId thrift.TType
 	var fieldId int16
+	var issetStatusCode bool = false
 
 	if _, err = iprot.ReadStructBegin(); err != nil {
 		goto ReadStructBeginError
@@ -349,6 +381,7 @@ func (p *DouyinPublishActionResponse) Read(iprot thrift.TProtocol) (err error) {
 				if err = p.ReadField1(iprot); err != nil {
 					goto ReadFieldError
 				}
+				issetStatusCode = true
 			} else {
 				if err = iprot.Skip(fieldTypeId); err != nil {
 					goto SkipFieldError
@@ -378,6 +411,10 @@ func (p *DouyinPublishActionResponse) Read(iprot thrift.TProtocol) (err error) {
 		goto ReadStructEndError
 	}
 
+	if !issetStatusCode {
+		fieldId = 1
+		goto RequiredFieldNotSetError
+	}
 	return nil
 ReadStructBeginError:
 	return thrift.PrependError(fmt.Sprintf("%T read struct begin error: ", p), err)
@@ -392,6 +429,8 @@ ReadFieldEndError:
 	return thrift.PrependError(fmt.Sprintf("%T read field end error", p), err)
 ReadStructEndError:
 	return thrift.PrependError(fmt.Sprintf("%T read struct end error: ", p), err)
+RequiredFieldNotSetError:
+	return thrift.NewTProtocolExceptionWithType(thrift.INVALID_DATA, fmt.Errorf("required field %s is not set", fieldIDToName_DouyinPublishActionResponse[fieldId]))
 }
 
 func (p *DouyinPublishActionResponse) ReadField1(iprot thrift.TProtocol) error {
@@ -407,7 +446,7 @@ func (p *DouyinPublishActionResponse) ReadField2(iprot thrift.TProtocol) error {
 	if v, err := iprot.ReadString(); err != nil {
 		return err
 	} else {
-		p.StatusMsg = v
+		p.StatusMsg = &v
 	}
 	return nil
 }
@@ -463,14 +502,16 @@ WriteFieldEndError:
 }
 
 func (p *DouyinPublishActionResponse) writeField2(oprot thrift.TProtocol) (err error) {
-	if err = oprot.WriteFieldBegin("status_msg", thrift.STRING, 2); err != nil {
-		goto WriteFieldBeginError
-	}
-	if err := oprot.WriteString(p.StatusMsg); err != nil {
-		return err
-	}
-	if err = oprot.WriteFieldEnd(); err != nil {
-		goto WriteFieldEndError
+	if p.IsSetStatusMsg() {
+		if err = oprot.WriteFieldBegin("status_msg", thrift.STRING, 2); err != nil {
+			goto WriteFieldBeginError
+		}
+		if err := oprot.WriteString(*p.StatusMsg); err != nil {
+			return err
+		}
+		if err = oprot.WriteFieldEnd(); err != nil {
+			goto WriteFieldEndError
+		}
 	}
 	return nil
 WriteFieldBeginError:
@@ -508,17 +549,22 @@ func (p *DouyinPublishActionResponse) Field1DeepEqual(src int32) bool {
 	}
 	return true
 }
-func (p *DouyinPublishActionResponse) Field2DeepEqual(src string) bool {
+func (p *DouyinPublishActionResponse) Field2DeepEqual(src *string) bool {
 
-	if strings.Compare(p.StatusMsg, src) != 0 {
+	if p.StatusMsg == src {
+		return true
+	} else if p.StatusMsg == nil || src == nil {
+		return false
+	}
+	if strings.Compare(*p.StatusMsg, *src) != 0 {
 		return false
 	}
 	return true
 }
 
 type DouyinPublishListRequest struct {
-	UserId int64  `thrift:"user_id,1" frugal:"1,default,i64" json:"user_id"`
-	Token  string `thrift:"token,2" frugal:"2,default,string" json:"token"`
+	UserId int64  `thrift:"user_id,1,required" frugal:"1,required,i64" json:"user_id"`
+	Token  string `thrift:"token,2,required" frugal:"2,required,string" json:"token"`
 }
 
 func NewDouyinPublishListRequest() *DouyinPublishListRequest {
@@ -552,6 +598,8 @@ func (p *DouyinPublishListRequest) Read(iprot thrift.TProtocol) (err error) {
 
 	var fieldTypeId thrift.TType
 	var fieldId int16
+	var issetUserId bool = false
+	var issetToken bool = false
 
 	if _, err = iprot.ReadStructBegin(); err != nil {
 		goto ReadStructBeginError
@@ -572,6 +620,7 @@ func (p *DouyinPublishListRequest) Read(iprot thrift.TProtocol) (err error) {
 				if err = p.ReadField1(iprot); err != nil {
 					goto ReadFieldError
 				}
+				issetUserId = true
 			} else {
 				if err = iprot.Skip(fieldTypeId); err != nil {
 					goto SkipFieldError
@@ -582,6 +631,7 @@ func (p *DouyinPublishListRequest) Read(iprot thrift.TProtocol) (err error) {
 				if err = p.ReadField2(iprot); err != nil {
 					goto ReadFieldError
 				}
+				issetToken = true
 			} else {
 				if err = iprot.Skip(fieldTypeId); err != nil {
 					goto SkipFieldError
@@ -601,6 +651,15 @@ func (p *DouyinPublishListRequest) Read(iprot thrift.TProtocol) (err error) {
 		goto ReadStructEndError
 	}
 
+	if !issetUserId {
+		fieldId = 1
+		goto RequiredFieldNotSetError
+	}
+
+	if !issetToken {
+		fieldId = 2
+		goto RequiredFieldNotSetError
+	}
 	return nil
 ReadStructBeginError:
 	return thrift.PrependError(fmt.Sprintf("%T read struct begin error: ", p), err)
@@ -615,6 +674,8 @@ ReadFieldEndError:
 	return thrift.PrependError(fmt.Sprintf("%T read field end error", p), err)
 ReadStructEndError:
 	return thrift.PrependError(fmt.Sprintf("%T read struct end error: ", p), err)
+RequiredFieldNotSetError:
+	return thrift.NewTProtocolExceptionWithType(thrift.INVALID_DATA, fmt.Errorf("required field %s is not set", fieldIDToName_DouyinPublishListRequest[fieldId]))
 }
 
 func (p *DouyinPublishListRequest) ReadField1(iprot thrift.TProtocol) error {
@@ -740,9 +801,9 @@ func (p *DouyinPublishListRequest) Field2DeepEqual(src string) bool {
 }
 
 type DouyinPublishListResponse struct {
-	StatusCode int32         `thrift:"status_code,1" frugal:"1,default,i32" json:"status_code"`
-	StatusMsg  string        `thrift:"status_msg,2" frugal:"2,default,string" json:"status_msg"`
-	VideoList  []*feed.Video `thrift:"video_list,3" frugal:"3,default,list<feed.Video>" json:"video_list"`
+	StatusCode int32         `thrift:"status_code,1,required" frugal:"1,required,i32" json:"status_code"`
+	StatusMsg  *string       `thrift:"status_msg,2,optional" frugal:"2,optional,string" json:"status_msg,omitempty"`
+	VideoList  []*feed.Video `thrift:"video_list,3,required" frugal:"3,required,list<feed.Video>" json:"video_list"`
 }
 
 func NewDouyinPublishListResponse() *DouyinPublishListResponse {
@@ -757,8 +818,13 @@ func (p *DouyinPublishListResponse) GetStatusCode() (v int32) {
 	return p.StatusCode
 }
 
+var DouyinPublishListResponse_StatusMsg_DEFAULT string
+
 func (p *DouyinPublishListResponse) GetStatusMsg() (v string) {
-	return p.StatusMsg
+	if !p.IsSetStatusMsg() {
+		return DouyinPublishListResponse_StatusMsg_DEFAULT
+	}
+	return *p.StatusMsg
 }
 
 func (p *DouyinPublishListResponse) GetVideoList() (v []*feed.Video) {
@@ -767,7 +833,7 @@ func (p *DouyinPublishListResponse) GetVideoList() (v []*feed.Video) {
 func (p *DouyinPublishListResponse) SetStatusCode(val int32) {
 	p.StatusCode = val
 }
-func (p *DouyinPublishListResponse) SetStatusMsg(val string) {
+func (p *DouyinPublishListResponse) SetStatusMsg(val *string) {
 	p.StatusMsg = val
 }
 func (p *DouyinPublishListResponse) SetVideoList(val []*feed.Video) {
@@ -780,10 +846,16 @@ var fieldIDToName_DouyinPublishListResponse = map[int16]string{
 	3: "video_list",
 }
 
+func (p *DouyinPublishListResponse) IsSetStatusMsg() bool {
+	return p.StatusMsg != nil
+}
+
 func (p *DouyinPublishListResponse) Read(iprot thrift.TProtocol) (err error) {
 
 	var fieldTypeId thrift.TType
 	var fieldId int16
+	var issetStatusCode bool = false
+	var issetVideoList bool = false
 
 	if _, err = iprot.ReadStructBegin(); err != nil {
 		goto ReadStructBeginError
@@ -804,6 +876,7 @@ func (p *DouyinPublishListResponse) Read(iprot thrift.TProtocol) (err error) {
 				if err = p.ReadField1(iprot); err != nil {
 					goto ReadFieldError
 				}
+				issetStatusCode = true
 			} else {
 				if err = iprot.Skip(fieldTypeId); err != nil {
 					goto SkipFieldError
@@ -824,6 +897,7 @@ func (p *DouyinPublishListResponse) Read(iprot thrift.TProtocol) (err error) {
 				if err = p.ReadField3(iprot); err != nil {
 					goto ReadFieldError
 				}
+				issetVideoList = true
 			} else {
 				if err = iprot.Skip(fieldTypeId); err != nil {
 					goto SkipFieldError
@@ -843,6 +917,15 @@ func (p *DouyinPublishListResponse) Read(iprot thrift.TProtocol) (err error) {
 		goto ReadStructEndError
 	}
 
+	if !issetStatusCode {
+		fieldId = 1
+		goto RequiredFieldNotSetError
+	}
+
+	if !issetVideoList {
+		fieldId = 3
+		goto RequiredFieldNotSetError
+	}
 	return nil
 ReadStructBeginError:
 	return thrift.PrependError(fmt.Sprintf("%T read struct begin error: ", p), err)
@@ -857,6 +940,8 @@ ReadFieldEndError:
 	return thrift.PrependError(fmt.Sprintf("%T read field end error", p), err)
 ReadStructEndError:
 	return thrift.PrependError(fmt.Sprintf("%T read struct end error: ", p), err)
+RequiredFieldNotSetError:
+	return thrift.NewTProtocolExceptionWithType(thrift.INVALID_DATA, fmt.Errorf("required field %s is not set", fieldIDToName_DouyinPublishListResponse[fieldId]))
 }
 
 func (p *DouyinPublishListResponse) ReadField1(iprot thrift.TProtocol) error {
@@ -872,7 +957,7 @@ func (p *DouyinPublishListResponse) ReadField2(iprot thrift.TProtocol) error {
 	if v, err := iprot.ReadString(); err != nil {
 		return err
 	} else {
-		p.StatusMsg = v
+		p.StatusMsg = &v
 	}
 	return nil
 }
@@ -952,14 +1037,16 @@ WriteFieldEndError:
 }
 
 func (p *DouyinPublishListResponse) writeField2(oprot thrift.TProtocol) (err error) {
-	if err = oprot.WriteFieldBegin("status_msg", thrift.STRING, 2); err != nil {
-		goto WriteFieldBeginError
-	}
-	if err := oprot.WriteString(p.StatusMsg); err != nil {
-		return err
-	}
-	if err = oprot.WriteFieldEnd(); err != nil {
-		goto WriteFieldEndError
+	if p.IsSetStatusMsg() {
+		if err = oprot.WriteFieldBegin("status_msg", thrift.STRING, 2); err != nil {
+			goto WriteFieldBeginError
+		}
+		if err := oprot.WriteString(*p.StatusMsg); err != nil {
+			return err
+		}
+		if err = oprot.WriteFieldEnd(); err != nil {
+			goto WriteFieldEndError
+		}
 	}
 	return nil
 WriteFieldBeginError:
@@ -1025,9 +1112,14 @@ func (p *DouyinPublishListResponse) Field1DeepEqual(src int32) bool {
 	}
 	return true
 }
-func (p *DouyinPublishListResponse) Field2DeepEqual(src string) bool {
+func (p *DouyinPublishListResponse) Field2DeepEqual(src *string) bool {
 
-	if strings.Compare(p.StatusMsg, src) != 0 {
+	if p.StatusMsg == src {
+		return true
+	} else if p.StatusMsg == nil || src == nil {
+		return false
+	}
+	if strings.Compare(*p.StatusMsg, *src) != 0 {
 		return false
 	}
 	return true

@@ -39,3 +39,9 @@ func (p *DouyinRelationFollowerListRequest) IsValid() error {
 func (p *DouyinRelationFollowerListResponse) IsValid() error {
 	return nil
 }
+func (p *DouyinRelationFriendListRequest) IsValid() error {
+	return nil
+}
+func (p *DouyinRelationFriendListResponse) IsValid() error {
+	return nil
+}
