@@ -26,8 +26,8 @@ struct Comment {
 
 // User
 struct DouyinUserRegisterRequest {
-    1: required string username (api.query="username", api.vd="len($) > 0", api.vd="len($) <= 32")// 注册用户名，最长32个字符
-    2: required string password (api.query="password", api.vd="len($) > 0", api.vd="len($) <= 32")// 密码，最长32个字符
+    1: required string username (api.query="username", api.vd="len($) > 0")// 注册用户名
+    2: required string password (api.query="password", api.vd="len($) > 0")// 密码
 }
 struct DouyinUserRegisterResponse {
     1: required i32 status_code // 状态码，0-成功，其他值-失败
@@ -36,8 +36,8 @@ struct DouyinUserRegisterResponse {
     4: required string token // 用户鉴权token
 }
 struct DouyinUserLoginRequest {
-    1: required string username (api.query="username", api.vd="len($) > 0", api.vd="len($) <= 32")// 注册用户名，最长32个字符
-    2: required string password (api.query="password", api.vd="len($) > 0", api.vd="len($) <= 32")// 密码，最长32个字符
+    1: required string username (api.query="username", api.vd="len($) > 0")// 注册用户名
+    2: required string password (api.query="password", api.vd="len($) > 0")// 密码
 }
 struct DouyinUserLoginResponse {
     1: required i32 status_code // 状态码，0-成功，其他值-失败
@@ -46,7 +46,7 @@ struct DouyinUserLoginResponse {
     4: required string token // 用户鉴权token
 }
 struct DouyinUserRequest {
-    1: required i64 user_id (api.query="user_id", api.vd="len($) > 0", api.vd="len($) <= 32")// 用户id
+    1: required i64 user_id (api.query="user_id", api.vd="len($) > 0")// 用户id
     2: required string token (api.query="token", api.vd="len($) > 0")// 用户鉴权token
 }
 struct DouyinUserResponse {
@@ -129,12 +129,11 @@ struct DouyinRelationFriendListResponse {
 
 // Favorite
 struct DouyinFavoriteActionRequest {
-    1: required i64 user_id // 用户id (api文档无此字段，但数据库表的用户与视频点赞关系表需要此字段)
-    2: required string token (api.query="token", api.vd="len($) > 0")// 用户鉴权token
-    3: required i64 video_id (api.query="video_id", api.vd="len($) > 0")// 视频id
-    4: required i32 action_type (api.query="action_type", api.vd="len($) > 0")// 1-点赞，2-取消点赞
+    1: required string token (api.query="token", api.vd="len($) > 0")// 用户鉴权token
+    2: required i64 video_id (api.query="video_id", api.vd="len($) > 0")// 视频id
+    3: required i32 action_type (api.query="action_type", api.vd="len($) > 0")// 1-点赞，2-取消点赞
 }
-struct douyinFavoriteActionResponse {
+struct DouyinFavoriteActionResponse {
     1: required i32 status_code // 状态码，0-成功，其他值-失败
     2: optional string status_msg // 返回状态描述
 }
@@ -150,12 +149,11 @@ struct DouyinFavoriteListResponse {
 
 // Comment
 struct DouyinCommentActionRequest {
-    1: required i64 user_id // 用户id
-    2: required string token (api.query="token", api.vd="len($) > 0")// 用户鉴权token
-    3: required i64 video_id (api.query="video_id", api.vd="len($) > 0")// 视频id
-    4: required i32 action_type (api.query="action_type", api.vd="len($) > 0")// 1-发布评论，2-删除评论
-    5: optional string comment_text (api.query="comment_text", api.vd="len($) > 0")// 用户填写的评论内容，在action_type=1的时候使用
-    6: optional i64 comment_id (api.query="comment_id", api.vd="len($) > 0")// 要删除的评论id，在action_type=2的时候使用
+    1: required string token (api.query="token", api.vd="len($) > 0")// 用户鉴权token
+    2: required i64 video_id (api.query="video_id", api.vd="len($) > 0")// 视频id
+    3: required i32 action_type (api.query="action_type", api.vd="len($) > 0")// 1-发布评论，2-删除评论
+    4: optional string comment_text (api.query="comment_text", api.vd="len($) > 0")// 用户填写的评论内容，在action_type=1的时候使用
+    5: optional i64 comment_id (api.query="comment_id", api.vd="len($) > 0")// 要删除的评论id，在action_type=2的时候使用
 }
 struct DouyinCommentActionResponse {
     1: required i32 status_code // 状态码，0-成功，其他值-失败
@@ -182,8 +180,8 @@ service ApiService {
     DouyinPublishActionResponse PublishAction (1: DouyinPublishActionRequest req) (api.post="/douyin/publish/action/")
     DouyinPublishListResponse PublishList (1: douyinPublishListRequest req) (api.get="/douyin/publish/list/")
 
-    douyinFavoriteActionResponse FavoriteAction (1: DouyinFavoriteActionRequest req) (api.post="/douyin/favorite/action/")
-    douyinFavoriteActionResponse FavoriteList (1: DouyinFavoriteListRequest req) (api.get="/douyin/favorite/list/")
+    DouyinFavoriteActionResponse FavoriteAction (1: DouyinFavoriteActionRequest req) (api.post="/douyin/favorite/action/")
+    DouyinFavoriteListResponse FavoriteList (1: DouyinFavoriteListRequest req) (api.get="/douyin/favorite/list/")
 
     DouyinRelationActionResponse RelationAction (1: DouyinRelationActionRequest req) (api.post="/douyin/relation/action/")
     DouyinRelationFollowListResponse RelationFollowList (1: DouyinRelationFollowListRequest req) (api.get="/douyin/relation/follow/list/")

@@ -12,7 +12,7 @@ import (
 // Client is designed to provide IDL-compatible methods with call-option parameter for kitex framework.
 type Client interface {
 	FavoriteAction(ctx context.Context, req *favorite.DouyinFavoriteActionRequest, callOptions ...callopt.Option) (r *favorite.DouyinFavoriteActionResponse, err error)
-	FavoriteList(ctx context.Context, req *favorite.DouyinFavoriteListRequest, callOptions ...callopt.Option) (r *favorite.DouyinFavoriteActionResponse, err error)
+	FavoriteList(ctx context.Context, req *favorite.DouyinFavoriteListRequest, callOptions ...callopt.Option) (r *favorite.DouyinFavoriteListResponse, err error)
 }
 
 // NewClient creates a client for the service defined in IDL.
@@ -49,7 +49,7 @@ func (p *kFavoriteServiceClient) FavoriteAction(ctx context.Context, req *favori
 	return p.kClient.FavoriteAction(ctx, req)
 }
 
-func (p *kFavoriteServiceClient) FavoriteList(ctx context.Context, req *favorite.DouyinFavoriteListRequest, callOptions ...callopt.Option) (r *favorite.DouyinFavoriteActionResponse, err error) {
+func (p *kFavoriteServiceClient) FavoriteList(ctx context.Context, req *favorite.DouyinFavoriteListRequest, callOptions ...callopt.Option) (r *favorite.DouyinFavoriteListResponse, err error) {
 	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
 	return p.kClient.FavoriteList(ctx, req)
 }

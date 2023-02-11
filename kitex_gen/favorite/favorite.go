@@ -11,10 +11,9 @@ import (
 )
 
 type DouyinFavoriteActionRequest struct {
-	UserId     int64  `thrift:"user_id,1,required" frugal:"1,required,i64" json:"user_id"`
-	Token      string `thrift:"token,2,required" frugal:"2,required,string" json:"token"`
-	VideoId    int64  `thrift:"video_id,3,required" frugal:"3,required,i64" json:"video_id"`
-	ActionType int32  `thrift:"action_type,4,required" frugal:"4,required,i32" json:"action_type"`
+	Token      string `thrift:"token,1,required" frugal:"1,required,string" json:"token"`
+	VideoId    int64  `thrift:"video_id,2,required" frugal:"2,required,i64" json:"video_id"`
+	ActionType int32  `thrift:"action_type,3,required" frugal:"3,required,i32" json:"action_type"`
 }
 
 func NewDouyinFavoriteActionRequest() *DouyinFavoriteActionRequest {
@@ -23,10 +22,6 @@ func NewDouyinFavoriteActionRequest() *DouyinFavoriteActionRequest {
 
 func (p *DouyinFavoriteActionRequest) InitDefault() {
 	*p = DouyinFavoriteActionRequest{}
-}
-
-func (p *DouyinFavoriteActionRequest) GetUserId() (v int64) {
-	return p.UserId
 }
 
 func (p *DouyinFavoriteActionRequest) GetToken() (v string) {
@@ -40,9 +35,6 @@ func (p *DouyinFavoriteActionRequest) GetVideoId() (v int64) {
 func (p *DouyinFavoriteActionRequest) GetActionType() (v int32) {
 	return p.ActionType
 }
-func (p *DouyinFavoriteActionRequest) SetUserId(val int64) {
-	p.UserId = val
-}
 func (p *DouyinFavoriteActionRequest) SetToken(val string) {
 	p.Token = val
 }
@@ -54,17 +46,15 @@ func (p *DouyinFavoriteActionRequest) SetActionType(val int32) {
 }
 
 var fieldIDToName_DouyinFavoriteActionRequest = map[int16]string{
-	1: "user_id",
-	2: "token",
-	3: "video_id",
-	4: "action_type",
+	1: "token",
+	2: "video_id",
+	3: "action_type",
 }
 
 func (p *DouyinFavoriteActionRequest) Read(iprot thrift.TProtocol) (err error) {
 
 	var fieldTypeId thrift.TType
 	var fieldId int16
-	var issetUserId bool = false
 	var issetToken bool = false
 	var issetVideoId bool = false
 	var issetActionType bool = false
@@ -84,19 +74,8 @@ func (p *DouyinFavoriteActionRequest) Read(iprot thrift.TProtocol) (err error) {
 
 		switch fieldId {
 		case 1:
-			if fieldTypeId == thrift.I64 {
-				if err = p.ReadField1(iprot); err != nil {
-					goto ReadFieldError
-				}
-				issetUserId = true
-			} else {
-				if err = iprot.Skip(fieldTypeId); err != nil {
-					goto SkipFieldError
-				}
-			}
-		case 2:
 			if fieldTypeId == thrift.STRING {
-				if err = p.ReadField2(iprot); err != nil {
+				if err = p.ReadField1(iprot); err != nil {
 					goto ReadFieldError
 				}
 				issetToken = true
@@ -105,9 +84,9 @@ func (p *DouyinFavoriteActionRequest) Read(iprot thrift.TProtocol) (err error) {
 					goto SkipFieldError
 				}
 			}
-		case 3:
+		case 2:
 			if fieldTypeId == thrift.I64 {
-				if err = p.ReadField3(iprot); err != nil {
+				if err = p.ReadField2(iprot); err != nil {
 					goto ReadFieldError
 				}
 				issetVideoId = true
@@ -116,9 +95,9 @@ func (p *DouyinFavoriteActionRequest) Read(iprot thrift.TProtocol) (err error) {
 					goto SkipFieldError
 				}
 			}
-		case 4:
+		case 3:
 			if fieldTypeId == thrift.I32 {
-				if err = p.ReadField4(iprot); err != nil {
+				if err = p.ReadField3(iprot); err != nil {
 					goto ReadFieldError
 				}
 				issetActionType = true
@@ -141,23 +120,18 @@ func (p *DouyinFavoriteActionRequest) Read(iprot thrift.TProtocol) (err error) {
 		goto ReadStructEndError
 	}
 
-	if !issetUserId {
+	if !issetToken {
 		fieldId = 1
 		goto RequiredFieldNotSetError
 	}
 
-	if !issetToken {
+	if !issetVideoId {
 		fieldId = 2
 		goto RequiredFieldNotSetError
 	}
 
-	if !issetVideoId {
-		fieldId = 3
-		goto RequiredFieldNotSetError
-	}
-
 	if !issetActionType {
-		fieldId = 4
+		fieldId = 3
 		goto RequiredFieldNotSetError
 	}
 	return nil
@@ -179,15 +153,6 @@ RequiredFieldNotSetError:
 }
 
 func (p *DouyinFavoriteActionRequest) ReadField1(iprot thrift.TProtocol) error {
-	if v, err := iprot.ReadI64(); err != nil {
-		return err
-	} else {
-		p.UserId = v
-	}
-	return nil
-}
-
-func (p *DouyinFavoriteActionRequest) ReadField2(iprot thrift.TProtocol) error {
 	if v, err := iprot.ReadString(); err != nil {
 		return err
 	} else {
@@ -196,7 +161,7 @@ func (p *DouyinFavoriteActionRequest) ReadField2(iprot thrift.TProtocol) error {
 	return nil
 }
 
-func (p *DouyinFavoriteActionRequest) ReadField3(iprot thrift.TProtocol) error {
+func (p *DouyinFavoriteActionRequest) ReadField2(iprot thrift.TProtocol) error {
 	if v, err := iprot.ReadI64(); err != nil {
 		return err
 	} else {
@@ -205,7 +170,7 @@ func (p *DouyinFavoriteActionRequest) ReadField3(iprot thrift.TProtocol) error {
 	return nil
 }
 
-func (p *DouyinFavoriteActionRequest) ReadField4(iprot thrift.TProtocol) error {
+func (p *DouyinFavoriteActionRequest) ReadField3(iprot thrift.TProtocol) error {
 	if v, err := iprot.ReadI32(); err != nil {
 		return err
 	} else {
@@ -232,10 +197,6 @@ func (p *DouyinFavoriteActionRequest) Write(oprot thrift.TProtocol) (err error) 
 			fieldId = 3
 			goto WriteFieldError
 		}
-		if err = p.writeField4(oprot); err != nil {
-			fieldId = 4
-			goto WriteFieldError
-		}
 
 	}
 	if err = oprot.WriteFieldStop(); err != nil {
@@ -256,10 +217,10 @@ WriteStructEndError:
 }
 
 func (p *DouyinFavoriteActionRequest) writeField1(oprot thrift.TProtocol) (err error) {
-	if err = oprot.WriteFieldBegin("user_id", thrift.I64, 1); err != nil {
+	if err = oprot.WriteFieldBegin("token", thrift.STRING, 1); err != nil {
 		goto WriteFieldBeginError
 	}
-	if err := oprot.WriteI64(p.UserId); err != nil {
+	if err := oprot.WriteString(p.Token); err != nil {
 		return err
 	}
 	if err = oprot.WriteFieldEnd(); err != nil {
@@ -273,10 +234,10 @@ WriteFieldEndError:
 }
 
 func (p *DouyinFavoriteActionRequest) writeField2(oprot thrift.TProtocol) (err error) {
-	if err = oprot.WriteFieldBegin("token", thrift.STRING, 2); err != nil {
+	if err = oprot.WriteFieldBegin("video_id", thrift.I64, 2); err != nil {
 		goto WriteFieldBeginError
 	}
-	if err := oprot.WriteString(p.Token); err != nil {
+	if err := oprot.WriteI64(p.VideoId); err != nil {
 		return err
 	}
 	if err = oprot.WriteFieldEnd(); err != nil {
@@ -290,24 +251,7 @@ WriteFieldEndError:
 }
 
 func (p *DouyinFavoriteActionRequest) writeField3(oprot thrift.TProtocol) (err error) {
-	if err = oprot.WriteFieldBegin("video_id", thrift.I64, 3); err != nil {
-		goto WriteFieldBeginError
-	}
-	if err := oprot.WriteI64(p.VideoId); err != nil {
-		return err
-	}
-	if err = oprot.WriteFieldEnd(); err != nil {
-		goto WriteFieldEndError
-	}
-	return nil
-WriteFieldBeginError:
-	return thrift.PrependError(fmt.Sprintf("%T write field 3 begin error: ", p), err)
-WriteFieldEndError:
-	return thrift.PrependError(fmt.Sprintf("%T write field 3 end error: ", p), err)
-}
-
-func (p *DouyinFavoriteActionRequest) writeField4(oprot thrift.TProtocol) (err error) {
-	if err = oprot.WriteFieldBegin("action_type", thrift.I32, 4); err != nil {
+	if err = oprot.WriteFieldBegin("action_type", thrift.I32, 3); err != nil {
 		goto WriteFieldBeginError
 	}
 	if err := oprot.WriteI32(p.ActionType); err != nil {
@@ -318,9 +262,9 @@ func (p *DouyinFavoriteActionRequest) writeField4(oprot thrift.TProtocol) (err e
 	}
 	return nil
 WriteFieldBeginError:
-	return thrift.PrependError(fmt.Sprintf("%T write field 4 begin error: ", p), err)
+	return thrift.PrependError(fmt.Sprintf("%T write field 3 begin error: ", p), err)
 WriteFieldEndError:
-	return thrift.PrependError(fmt.Sprintf("%T write field 4 end error: ", p), err)
+	return thrift.PrependError(fmt.Sprintf("%T write field 3 end error: ", p), err)
 }
 
 func (p *DouyinFavoriteActionRequest) String() string {
@@ -336,43 +280,33 @@ func (p *DouyinFavoriteActionRequest) DeepEqual(ano *DouyinFavoriteActionRequest
 	} else if p == nil || ano == nil {
 		return false
 	}
-	if !p.Field1DeepEqual(ano.UserId) {
+	if !p.Field1DeepEqual(ano.Token) {
 		return false
 	}
-	if !p.Field2DeepEqual(ano.Token) {
+	if !p.Field2DeepEqual(ano.VideoId) {
 		return false
 	}
-	if !p.Field3DeepEqual(ano.VideoId) {
-		return false
-	}
-	if !p.Field4DeepEqual(ano.ActionType) {
+	if !p.Field3DeepEqual(ano.ActionType) {
 		return false
 	}
 	return true
 }
 
-func (p *DouyinFavoriteActionRequest) Field1DeepEqual(src int64) bool {
-
-	if p.UserId != src {
-		return false
-	}
-	return true
-}
-func (p *DouyinFavoriteActionRequest) Field2DeepEqual(src string) bool {
+func (p *DouyinFavoriteActionRequest) Field1DeepEqual(src string) bool {
 
 	if strings.Compare(p.Token, src) != 0 {
 		return false
 	}
 	return true
 }
-func (p *DouyinFavoriteActionRequest) Field3DeepEqual(src int64) bool {
+func (p *DouyinFavoriteActionRequest) Field2DeepEqual(src int64) bool {
 
 	if p.VideoId != src {
 		return false
 	}
 	return true
 }
-func (p *DouyinFavoriteActionRequest) Field4DeepEqual(src int32) bool {
+func (p *DouyinFavoriteActionRequest) Field3DeepEqual(src int32) bool {
 
 	if p.ActionType != src {
 		return false
@@ -518,7 +452,7 @@ func (p *DouyinFavoriteActionResponse) ReadField2(iprot thrift.TProtocol) error 
 
 func (p *DouyinFavoriteActionResponse) Write(oprot thrift.TProtocol) (err error) {
 	var fieldId int16
-	if err = oprot.WriteStructBegin("douyinFavoriteActionResponse"); err != nil {
+	if err = oprot.WriteStructBegin("DouyinFavoriteActionResponse"); err != nil {
 		goto WriteStructBeginError
 	}
 	if p != nil {
@@ -1206,7 +1140,7 @@ func (p *DouyinFavoriteListResponse) Field3DeepEqual(src []*feed.Video) bool {
 type FavoriteService interface {
 	FavoriteAction(ctx context.Context, req *DouyinFavoriteActionRequest) (r *DouyinFavoriteActionResponse, err error)
 
-	FavoriteList(ctx context.Context, req *DouyinFavoriteListRequest) (r *DouyinFavoriteActionResponse, err error)
+	FavoriteList(ctx context.Context, req *DouyinFavoriteListRequest) (r *DouyinFavoriteListResponse, err error)
 }
 
 type FavoriteServiceClient struct {
@@ -1244,7 +1178,7 @@ func (p *FavoriteServiceClient) FavoriteAction(ctx context.Context, req *DouyinF
 	}
 	return _result.GetSuccess(), nil
 }
-func (p *FavoriteServiceClient) FavoriteList(ctx context.Context, req *DouyinFavoriteListRequest) (r *DouyinFavoriteActionResponse, err error) {
+func (p *FavoriteServiceClient) FavoriteList(ctx context.Context, req *DouyinFavoriteListRequest) (r *DouyinFavoriteListResponse, err error) {
 	var _args FavoriteServiceFavoriteListArgs
 	_args.Req = req
 	var _result FavoriteServiceFavoriteListResult
@@ -1363,7 +1297,7 @@ func (p *favoriteServiceProcessorFavoriteList) Process(ctx context.Context, seqI
 	iprot.ReadMessageEnd()
 	var err2 error
 	result := FavoriteServiceFavoriteListResult{}
-	var retval *DouyinFavoriteActionResponse
+	var retval *DouyinFavoriteListResponse
 	if retval, err2 = p.handler.FavoriteList(ctx, args.Req); err2 != nil {
 		x := thrift.NewTApplicationException(thrift.INTERNAL_ERROR, "Internal error processing FavoriteList: "+err2.Error())
 		oprot.WriteMessageBegin("FavoriteList", thrift.EXCEPTION, seqId)
@@ -1911,7 +1845,7 @@ func (p *FavoriteServiceFavoriteListArgs) Field1DeepEqual(src *DouyinFavoriteLis
 }
 
 type FavoriteServiceFavoriteListResult struct {
-	Success *DouyinFavoriteActionResponse `thrift:"success,0,optional" frugal:"0,optional,DouyinFavoriteActionResponse" json:"success,omitempty"`
+	Success *DouyinFavoriteListResponse `thrift:"success,0,optional" frugal:"0,optional,DouyinFavoriteListResponse" json:"success,omitempty"`
 }
 
 func NewFavoriteServiceFavoriteListResult() *FavoriteServiceFavoriteListResult {
@@ -1922,16 +1856,16 @@ func (p *FavoriteServiceFavoriteListResult) InitDefault() {
 	*p = FavoriteServiceFavoriteListResult{}
 }
 
-var FavoriteServiceFavoriteListResult_Success_DEFAULT *DouyinFavoriteActionResponse
+var FavoriteServiceFavoriteListResult_Success_DEFAULT *DouyinFavoriteListResponse
 
-func (p *FavoriteServiceFavoriteListResult) GetSuccess() (v *DouyinFavoriteActionResponse) {
+func (p *FavoriteServiceFavoriteListResult) GetSuccess() (v *DouyinFavoriteListResponse) {
 	if !p.IsSetSuccess() {
 		return FavoriteServiceFavoriteListResult_Success_DEFAULT
 	}
 	return p.Success
 }
 func (p *FavoriteServiceFavoriteListResult) SetSuccess(x interface{}) {
-	p.Success = x.(*DouyinFavoriteActionResponse)
+	p.Success = x.(*DouyinFavoriteListResponse)
 }
 
 var fieldIDToName_FavoriteServiceFavoriteListResult = map[int16]string{
@@ -2002,7 +1936,7 @@ ReadStructEndError:
 }
 
 func (p *FavoriteServiceFavoriteListResult) ReadField0(iprot thrift.TProtocol) error {
-	p.Success = NewDouyinFavoriteActionResponse()
+	p.Success = NewDouyinFavoriteListResponse()
 	if err := p.Success.Read(iprot); err != nil {
 		return err
 	}
@@ -2076,7 +2010,7 @@ func (p *FavoriteServiceFavoriteListResult) DeepEqual(ano *FavoriteServiceFavori
 	return true
 }
 
-func (p *FavoriteServiceFavoriteListResult) Field0DeepEqual(src *DouyinFavoriteActionResponse) bool {
+func (p *FavoriteServiceFavoriteListResult) Field0DeepEqual(src *DouyinFavoriteListResponse) bool {
 
 	if !p.Success.DeepEqual(src) {
 		return false
