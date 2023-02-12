@@ -20,14 +20,13 @@ func (s *CommentServiceImpl) CommentAction(ctx context.Context, req *comment.Dou
 		return resp, nil
 	}
 
-	// 将token解析出的登录用户ID设置进req中
 	if currID == 0 {
 		resp = pack.BuildCommentActionResp(errno.UserNotExistErr)
 		return resp, nil
 	}
 
 	if req.VideoId == 0 {
-		resp = pack.BuildCommentActionResp(errno.VideoProcErr)
+		resp = pack.BuildCommentActionResp(errno.VideoNotExistErr)
 		return resp, nil
 	}
 

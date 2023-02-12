@@ -76,12 +76,37 @@ func _getuserfeedMw() []app.HandlerFunc {
 	return nil
 }
 
-func _publishMw() []app.HandlerFunc {
+func _messageMw() []app.HandlerFunc {
 	// your code...
 	return nil
 }
 
 func _action1Mw() []app.HandlerFunc {
+	// your code...
+	return nil
+}
+
+func _message_ctionMw() []app.HandlerFunc {
+	// your code...
+	return nil
+}
+
+func _chatMw() []app.HandlerFunc {
+	// your code...
+	return nil
+}
+
+func _messagechatMw() []app.HandlerFunc {
+	// your code...
+	return nil
+}
+
+func _publishMw() []app.HandlerFunc {
+	// your code...
+	return nil
+}
+
+func _action2Mw() []app.HandlerFunc {
 	// your code...
 	return nil
 }
@@ -106,7 +131,7 @@ func _relationMw() []app.HandlerFunc {
 	return nil
 }
 
-func _action2Mw() []app.HandlerFunc {
+func _action3Mw() []app.HandlerFunc {
 	// your code...
 	return nil
 }

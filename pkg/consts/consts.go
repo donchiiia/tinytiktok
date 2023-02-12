@@ -11,6 +11,7 @@ const (
 	CommentServiceName  = "comment"
 	FavoriteServiceName = "favorite"
 	RelationServiceName = "relation"
+	MessageServiceName  = "message"
 
 	// SQL Table Name
 	UserTableName     = "user"
@@ -19,6 +20,7 @@ const (
 	FollowTableName   = "follow"
 	FriendTableName   = "friend"
 	FavoriteTableName = "favorite"
+	MessageTableName  = "message"
 
 	ETCDAddress     = "127.0.0.1:2379"
 	ExportEndpoint  = ":4317"
@@ -31,6 +33,7 @@ const (
 	CommentServiceAddr  = ":8084"
 	PublishServiceAddr  = ":8085"
 	RelationServiceAddr = ":8086"
+	MessageServiceAddr  = ":8087"
 
 	SecretKey       = "tinytiktok"
 	IdentityKey     = "id"

@@ -39,7 +39,7 @@ func InitDB() {
 	}
 
 	// AutoMigrate 会创建表、缺失的外键、约束、列和索引。 如果大小、精度、是否为空可以更改，则 AutoMigrate 会改变列的类型。 出于保护您数据的目的，它 不会 删除未使用的列
-	err = DB.AutoMigrate(&User{}, &Video{}, &Favorite{}, &Follow{}, &Friend{}, &Comment{})
+	err = DB.AutoMigrate(&User{}, &Video{}, &Favorite{}, &Follow{}, &Friend{}, &Comment{}, &Message{})
 	if err != nil {
 		panic(err)
 	}

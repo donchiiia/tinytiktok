@@ -24,6 +24,14 @@ struct Comment {
     4: required string create_date // 评论发布日期，格式 mm-dd
 }
 
+struct Message {
+    1: required i64 id // 消息id
+    2: required i64 to_user_id // 该消息接收者的id
+    3: required i64 from_user_id // 该消息发送者的id
+    4: required string content // 消息内容
+    5: optional string create_time // 消息创建时间
+}
+
 // User
 struct DouyinUserRegisterRequest {
     1: required string username (api.query="username", api.vd="len($) > 0")// 注册用户名
@@ -170,6 +178,28 @@ struct DouyinCommentListResponse {
     3: required list<Comment> comment_list // 评论列表
 }
 
+// Messgae
+struct DouyinMessageChatRequest {
+    1: required string token // 用户鉴权token
+    2: required i64 to_user_id // 用户id
+}
+struct DouyinMessageChatResponse {
+    1: required i32 status_code // 状态码，0-成功，其他值-失败
+    2: optional string status_msg // 返回状态描述
+    3: required list<Message> message_list // 消息列表
+}
+
+struct DouyinMessageActionRequest {
+    1: required string token // 用户鉴权token
+    2: required i64 to_user_id // 对方用户id
+    3: required i32 action_type // 1-发送消息
+    4: required string content // 消息内容
+}
+struct DouyinMessageActionResponse {
+    1: required i32 status_code // 状态码，0-成功，其他值-失败
+    2: optional string status_msg // 返回状态描述
+}
+
 service ApiService {
     DouyinUserRegisterResponse Register (1: DouyinUserRegisterRequest req) (api.post="/douyin/user/register/")
     DouyinUserLoginResponse Login (1: DouyinUserLoginRequest req) (api.post="/douyin/user/login/")
@@ -190,4 +220,7 @@ service ApiService {
 
     DouyinCommentActionResponse CommentAction (1: DouyinCommentActionRequest req) (api.post="/douyin/comment/action/")
     DouyinCommentListResponse CommentList (1: DouyinCommentListRequest req) (api.get="/douyin/comment/list/")
+
+    DouyinMessageActionResponse MessageAction (1: DouyinMessageActionRequest req) (api.post="/douyin/message/action/")
+    DouyinMessageChatResponse MessageChat (1: DouyinMessageChatRequest req) (api.get="/douyin/message/chat/")
 }
