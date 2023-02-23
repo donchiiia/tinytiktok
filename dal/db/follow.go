@@ -28,7 +28,7 @@ func NewFollow(ctx context.Context, userID int64, toUserID int64) error {
 			UserID:   userID,
 			ToUserID: toUserID,
 		}
-		err := tx.Create(follow).Error
+		err := tx.Create(&follow).Error
 		if err != nil {
 			return err
 		}
@@ -44,7 +44,7 @@ func NewFollow(ctx context.Context, userID int64, toUserID int64) error {
 		}
 
 		// 更新 follower_count 字段
-		res = tx.Model(&User{}).Where("id = ?", toUserID).Update("follower_count", gorm.Expr("follower_count - ?", 1))
+		res = tx.Model(&User{}).Where("id = ?", toUserID).Update("follower_count", gorm.Expr("follower_count + ?", 1))
 		if res.Error != nil {
 			return res.Error
 		}
@@ -73,15 +73,14 @@ func UnFollow(ctx context.Context, userID int64, toUserID int64) error {
 			return err
 		}
 		// 修改follow_count
-		model := tx.Model(&User{})
-		res := model.Where("id = ?", userID).Update("follow_count", gorm.Expr("follow_count - ?", 1))
+		res := tx.Model(new(User)).Where("id = ?", userID).Update("follow_count", gorm.Expr("follow_count - ?", 1))
 		if res.Error != nil {
 			return res.Error
 		}
 		if res.RowsAffected != 1 {
 			return errno.DBErr
 		}
-		res = model.Where("id = ?", toUserID).Update("follower_count", gorm.Expr("follower_count - 1", 1))
+		res = tx.Model(new(User)).Where("id = ?", toUserID).Update("follower_count", gorm.Expr("follower_count - ?", 1))
 		if res.Error != nil {
 			return res.Error
 		}

@@ -47,7 +47,7 @@ func CreateComment(ctx context.Context, comment *Comment) error {
 // MGetVideoComments 通过 视频id 获取 评论列表
 func MGetVideoComments(ctx context.Context, videoID int64) ([]*Comment, error) {
 	var commentList []*Comment
-	err := DB.WithContext(ctx).Where("id = ?", videoID).Find(&commentList).Error
+	err := DB.WithContext(ctx).Model(&Comment{}).Where("video_id = ?", videoID).Find(&commentList).Error
 	if err != nil {
 		return nil, err
 	}

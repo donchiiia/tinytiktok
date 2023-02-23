@@ -40,7 +40,6 @@ func AddFavorite(ctx context.Context, userID int64, videoID int64) error {
 		if res.Error != nil {
 			return res.Error
 		}
-
 		if res.RowsAffected != 1 {
 			return errno.DBErr
 		}
@@ -68,7 +67,7 @@ func UnFavorite(ctx context.Context, userID int64, videoID int64) error {
 		}
 
 		// 修改视频点赞总数
-		res := tx.Model(&Video{}).Update("favorite_count", gorm.Expr("favorite - ?", 1))
+		res := tx.Model(video).Update("favorite_count", gorm.Expr("favorite - ?", 1))
 		if res.Error != nil {
 			return err
 		}
@@ -109,12 +108,12 @@ func MGetFavoriteVideoSet(ctx context.Context, userID int64) (map[int64]struct{}
 // GetAssociatedVideo 获取 关联视频
 func GetAssociatedVideo(ctx context.Context, userID int64, videoID int64) (*Video, error) {
 	user := new(User)
-	err := DB.WithContext(ctx).Where(user, userID).Error
+	err := DB.WithContext(ctx).Find(user, userID).Error
 	if err != nil {
 		return nil, err
 	}
 	video := new(Video)
-	err = DB.WithContext(ctx).Model(video).Association("FavoriteVideos").Find(&video, videoID)
+	err = DB.WithContext(ctx).Model(&user).Association("FavoriteVideos").Find(&video, videoID)
 	if err != nil {
 		return nil, err
 	}

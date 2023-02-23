@@ -41,7 +41,7 @@ const (
 	DefaultLimit    = 10
 
 	// minio 配置
-	MinioEndpoint        = "localhost:9000"
+	MinioEndpoint        = "192.168.249.88:9000"
 	MinioAccessKeyID     = "minioadmin"
 	MinioSecretAccessKey = "minioadmin"
 	MinioUseSSL          = false

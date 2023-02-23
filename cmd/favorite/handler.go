@@ -68,6 +68,7 @@ func (s *FavoriteServiceImpl) FavoriteList(ctx context.Context, req *favorite.Do
 	if err != nil {
 		resp = pack.BuildFavoriteListResp(err)
 	}
+	resp = pack.BuildFavoriteListResp(errno.Success)
 	resp.VideoList = favoriteList
 	return resp, nil
 }

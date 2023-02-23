@@ -18,15 +18,15 @@ func NewRelationActionService(ctx context.Context) *RelationActionService {
 }
 
 // FollowAction 关注操作 关注/取消关注
-func (s *RelationActionService) FollowAction(req *relation.DouyinRelationActionRequest) error {
+func (s *RelationActionService) FollowAction(req *relation.DouyinRelationActionRequest, currID int64) error {
 	// 1. 关注操作
 	if req.ActionType == 1 {
-		return db.NewFollow(s.ctx, req.UserId, req.ToUserId)
+		return db.NewFollow(s.ctx, currID, req.ToUserId)
 	}
 
 	// 2. 取关操作
 	if req.ActionType == 2 {
-		return db.UnFollow(s.ctx, req.UserId, req.ToUserId)
+		return db.UnFollow(s.ctx, currID, req.ToUserId)
 	}
 
 	return errno.ActionTypeErr

@@ -26,6 +26,7 @@ func main() {
 	h := server.New(
 		server.WithHostPorts(":8080"),
 		server.WithHandleMethodNotAllowed(true), // coordinate with NoMethod
+		server.WithMaxRequestBodySize(500*1024*1024),
 		tracer,
 	)
 	// use pprof mw

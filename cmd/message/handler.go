@@ -58,6 +58,11 @@ func (s *MessageServiceImpl) MessageChat(ctx context.Context, req *message.Douyi
 	}
 
 	messageChat, err := service.NewMessageChatService(ctx).MessageChat(req, fromUserID)
+	if err != nil {
+		return pack.BuildMessageChatResp(err), nil
+	}
+
+	resp = pack.BuildMessageChatResp(errno.Success)
 	resp.MessageList = messageChat
 	return resp, nil
 }

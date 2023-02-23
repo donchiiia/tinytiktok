@@ -38,7 +38,7 @@ func MGetFeed(ctx context.Context, lastestTime *int64, limit int) ([]*Video, err
 	}
 
 	// 返回以时间倒序视频列表
-	err := DB.WithContext(ctx).Limit(limit).Order("update_time desc").Find(&videos, "update_time < ?", time.Unix(*lastestTime, 0)).Error
+	err := DB.WithContext(ctx).Limit(limit).Order("update_time desc").Find(&videos, "update_time < ?", time.UnixMilli(*lastestTime)).Error
 	if err != nil {
 		return nil, err
 	}

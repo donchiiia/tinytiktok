@@ -68,6 +68,7 @@ func (s *CommentServiceImpl) CommentList(ctx context.Context, req *comment.Douyi
 	if err != nil {
 		resp = pack.BuildCommentListResp(err)
 	}
+	resp = pack.BuildCommentListResp(errno.Success)
 	resp.CommentList = commentList
 	return resp, nil
 }

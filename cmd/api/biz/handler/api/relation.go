@@ -15,6 +15,7 @@ import (
 func RelationAction(ctx context.Context, c *app.RequestContext) {
 	var err error
 	var req api.DouyinRelationActionRequest
+
 	err = c.Bind(&req)
 	if err != nil {
 		SendResponse(c, pack.BuildRelationActionResp(errno.ConvertErr(err)))

@@ -31,7 +31,6 @@ func (p *DouyinRelationActionRequest) FastRead(buf []byte) (int, error) {
 	var l int
 	var fieldTypeId thrift.TType
 	var fieldId int16
-	var issetUserId bool = false
 	var issetToken bool = false
 	var issetToUserId bool = false
 	var issetActionType bool = false
@@ -52,23 +51,8 @@ func (p *DouyinRelationActionRequest) FastRead(buf []byte) (int, error) {
 		}
 		switch fieldId {
 		case 1:
-			if fieldTypeId == thrift.I64 {
-				l, err = p.FastReadField1(buf[offset:])
-				offset += l
-				if err != nil {
-					goto ReadFieldError
-				}
-				issetUserId = true
-			} else {
-				l, err = bthrift.Binary.Skip(buf[offset:], fieldTypeId)
-				offset += l
-				if err != nil {
-					goto SkipFieldError
-				}
-			}
-		case 2:
 			if fieldTypeId == thrift.STRING {
-				l, err = p.FastReadField2(buf[offset:])
+				l, err = p.FastReadField1(buf[offset:])
 				offset += l
 				if err != nil {
 					goto ReadFieldError
@@ -81,9 +65,9 @@ func (p *DouyinRelationActionRequest) FastRead(buf []byte) (int, error) {
 					goto SkipFieldError
 				}
 			}
-		case 3:
+		case 2:
 			if fieldTypeId == thrift.I64 {
-				l, err = p.FastReadField3(buf[offset:])
+				l, err = p.FastReadField2(buf[offset:])
 				offset += l
 				if err != nil {
 					goto ReadFieldError
@@ -96,9 +80,9 @@ func (p *DouyinRelationActionRequest) FastRead(buf []byte) (int, error) {
 					goto SkipFieldError
 				}
 			}
-		case 4:
+		case 3:
 			if fieldTypeId == thrift.I32 {
-				l, err = p.FastReadField4(buf[offset:])
+				l, err = p.FastReadField3(buf[offset:])
 				offset += l
 				if err != nil {
 					goto ReadFieldError
@@ -131,23 +115,18 @@ func (p *DouyinRelationActionRequest) FastRead(buf []byte) (int, error) {
 		goto ReadStructEndError
 	}
 
-	if !issetUserId {
+	if !issetToken {
 		fieldId = 1
 		goto RequiredFieldNotSetError
 	}
 
-	if !issetToken {
+	if !issetToUserId {
 		fieldId = 2
 		goto RequiredFieldNotSetError
 	}
 
-	if !issetToUserId {
-		fieldId = 3
-		goto RequiredFieldNotSetError
-	}
-
 	if !issetActionType {
-		fieldId = 4
+		fieldId = 3
 		goto RequiredFieldNotSetError
 	}
 	return offset, nil
@@ -170,20 +149,6 @@ RequiredFieldNotSetError:
 func (p *DouyinRelationActionRequest) FastReadField1(buf []byte) (int, error) {
 	offset := 0
 
-	if v, l, err := bthrift.Binary.ReadI64(buf[offset:]); err != nil {
-		return offset, err
-	} else {
-		offset += l
-
-		p.UserId = v
-
-	}
-	return offset, nil
-}
-
-func (p *DouyinRelationActionRequest) FastReadField2(buf []byte) (int, error) {
-	offset := 0
-
 	if v, l, err := bthrift.Binary.ReadString(buf[offset:]); err != nil {
 		return offset, err
 	} else {
@@ -195,7 +160,7 @@ func (p *DouyinRelationActionRequest) FastReadField2(buf []byte) (int, error) {
 	return offset, nil
 }
 
-func (p *DouyinRelationActionRequest) FastReadField3(buf []byte) (int, error) {
+func (p *DouyinRelationActionRequest) FastReadField2(buf []byte) (int, error) {
 	offset := 0
 
 	if v, l, err := bthrift.Binary.ReadI64(buf[offset:]); err != nil {
@@ -209,7 +174,7 @@ func (p *DouyinRelationActionRequest) FastReadField3(buf []byte) (int, error) {
 	return offset, nil
 }
 
-func (p *DouyinRelationActionRequest) FastReadField4(buf []byte) (int, error) {
+func (p *DouyinRelationActionRequest) FastReadField3(buf []byte) (int, error) {
 	offset := 0
 
 	if v, l, err := bthrift.Binary.ReadI32(buf[offset:]); err != nil {
@@ -232,10 +197,9 @@ func (p *DouyinRelationActionRequest) FastWriteNocopy(buf []byte, binaryWriter b
 	offset := 0
 	offset += bthrift.Binary.WriteStructBegin(buf[offset:], "DouyinRelationActionRequest")
 	if p != nil {
-		offset += p.fastWriteField1(buf[offset:], binaryWriter)
-		offset += p.fastWriteField3(buf[offset:], binaryWriter)
-		offset += p.fastWriteField4(buf[offset:], binaryWriter)
 		offset += p.fastWriteField2(buf[offset:], binaryWriter)
+		offset += p.fastWriteField3(buf[offset:], binaryWriter)
+		offset += p.fastWriteField1(buf[offset:], binaryWriter)
 	}
 	offset += bthrift.Binary.WriteFieldStop(buf[offset:])
 	offset += bthrift.Binary.WriteStructEnd(buf[offset:])
@@ -249,7 +213,6 @@ func (p *DouyinRelationActionRequest) BLength() int {
 		l += p.field1Length()
 		l += p.field2Length()
 		l += p.field3Length()
-		l += p.field4Length()
 	}
 	l += bthrift.Binary.FieldStopLength()
 	l += bthrift.Binary.StructEndLength()
@@ -258,8 +221,8 @@ func (p *DouyinRelationActionRequest) BLength() int {
 
 func (p *DouyinRelationActionRequest) fastWriteField1(buf []byte, binaryWriter bthrift.BinaryWriter) int {
 	offset := 0
-	offset += bthrift.Binary.WriteFieldBegin(buf[offset:], "user_id", thrift.I64, 1)
-	offset += bthrift.Binary.WriteI64(buf[offset:], p.UserId)
+	offset += bthrift.Binary.WriteFieldBegin(buf[offset:], "token", thrift.STRING, 1)
+	offset += bthrift.Binary.WriteStringNocopy(buf[offset:], binaryWriter, p.Token)
 
 	offset += bthrift.Binary.WriteFieldEnd(buf[offset:])
 	return offset
@@ -267,8 +230,8 @@ func (p *DouyinRelationActionRequest) fastWriteField1(buf []byte, binaryWriter b
 
 func (p *DouyinRelationActionRequest) fastWriteField2(buf []byte, binaryWriter bthrift.BinaryWriter) int {
 	offset := 0
-	offset += bthrift.Binary.WriteFieldBegin(buf[offset:], "token", thrift.STRING, 2)
-	offset += bthrift.Binary.WriteStringNocopy(buf[offset:], binaryWriter, p.Token)
+	offset += bthrift.Binary.WriteFieldBegin(buf[offset:], "to_user_id", thrift.I64, 2)
+	offset += bthrift.Binary.WriteI64(buf[offset:], p.ToUserId)
 
 	offset += bthrift.Binary.WriteFieldEnd(buf[offset:])
 	return offset
@@ -276,16 +239,7 @@ func (p *DouyinRelationActionRequest) fastWriteField2(buf []byte, binaryWriter b
 
 func (p *DouyinRelationActionRequest) fastWriteField3(buf []byte, binaryWriter bthrift.BinaryWriter) int {
 	offset := 0
-	offset += bthrift.Binary.WriteFieldBegin(buf[offset:], "to_user_id", thrift.I64, 3)
-	offset += bthrift.Binary.WriteI64(buf[offset:], p.ToUserId)
-
-	offset += bthrift.Binary.WriteFieldEnd(buf[offset:])
-	return offset
-}
-
-func (p *DouyinRelationActionRequest) fastWriteField4(buf []byte, binaryWriter bthrift.BinaryWriter) int {
-	offset := 0
-	offset += bthrift.Binary.WriteFieldBegin(buf[offset:], "action_type", thrift.I32, 4)
+	offset += bthrift.Binary.WriteFieldBegin(buf[offset:], "action_type", thrift.I32, 3)
 	offset += bthrift.Binary.WriteI32(buf[offset:], p.ActionType)
 
 	offset += bthrift.Binary.WriteFieldEnd(buf[offset:])
@@ -294,8 +248,8 @@ func (p *DouyinRelationActionRequest) fastWriteField4(buf []byte, binaryWriter b
 
 func (p *DouyinRelationActionRequest) field1Length() int {
 	l := 0
-	l += bthrift.Binary.FieldBeginLength("user_id", thrift.I64, 1)
-	l += bthrift.Binary.I64Length(p.UserId)
+	l += bthrift.Binary.FieldBeginLength("token", thrift.STRING, 1)
+	l += bthrift.Binary.StringLengthNocopy(p.Token)
 
 	l += bthrift.Binary.FieldEndLength()
 	return l
@@ -303,8 +257,8 @@ func (p *DouyinRelationActionRequest) field1Length() int {
 
 func (p *DouyinRelationActionRequest) field2Length() int {
 	l := 0
-	l += bthrift.Binary.FieldBeginLength("token", thrift.STRING, 2)
-	l += bthrift.Binary.StringLengthNocopy(p.Token)
+	l += bthrift.Binary.FieldBeginLength("to_user_id", thrift.I64, 2)
+	l += bthrift.Binary.I64Length(p.ToUserId)
 
 	l += bthrift.Binary.FieldEndLength()
 	return l
@@ -312,16 +266,7 @@ func (p *DouyinRelationActionRequest) field2Length() int {
 
 func (p *DouyinRelationActionRequest) field3Length() int {
 	l := 0
-	l += bthrift.Binary.FieldBeginLength("to_user_id", thrift.I64, 3)
-	l += bthrift.Binary.I64Length(p.ToUserId)
-
-	l += bthrift.Binary.FieldEndLength()
-	return l
-}
-
-func (p *DouyinRelationActionRequest) field4Length() int {
-	l := 0
-	l += bthrift.Binary.FieldBeginLength("action_type", thrift.I32, 4)
+	l += bthrift.Binary.FieldBeginLength("action_type", thrift.I32, 3)
 	l += bthrift.Binary.I32Length(p.ActionType)
 
 	l += bthrift.Binary.FieldEndLength()

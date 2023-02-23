@@ -19,13 +19,11 @@ func (s *RelationServiceImpl) RelationAction(ctx context.Context, req *relation.
 		return resp, nil
 	}
 
-	req.UserId = currID
-
 	if req.ActionType != 1 && req.ActionType != 2 {
 		resp = pack.BuildRelationActionResp(errno.ActionTypeErr)
 		return resp, nil
 	}
-	err = service.NewRelationActionService(ctx).FollowAction(req)
+	err = service.NewRelationActionService(ctx).FollowAction(req, currID)
 	if err != nil {
 		resp = pack.BuildRelationActionResp(err)
 		return resp, nil
